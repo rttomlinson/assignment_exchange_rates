@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import ExchangeRatesDisplay from "./ExchangeRatesDisplay";
-import HistoricaRatesDisplay from "./HistoricaRatesDisplay";
+import HistoricalRatesDisplay from "./HistoricalRatesDisplay";
 import ExchangeRatesControls from "./ExchangeRatesControls";
 
 import "../App.css";
@@ -18,6 +18,7 @@ class App extends Component {
     this.historicalRates = [];
 
     this._dataFetch = this._dataFetch.bind(this);
+    this._historicDataFetch = this._historicDataFetch.bind(this);
   }
 
   componentDidMount() {
@@ -46,12 +47,8 @@ class App extends Component {
   }
 
   _dataFetch(base) {
-    return fetch(`https://api.fixer.io/latest?base=${base}`)
-      .then(response => response.json())
-      .then(json => {
-        this.rates = json.rates;
-        this.codes = Object.keys(this.rates);
-        return json;
+    return this.setState({
+        currentBase: base
       });
   }
 
@@ -66,11 +63,6 @@ class App extends Component {
   onSelectChange = e => {
     const newBase = e.target.value;
     this._dataFetch(newBase)
-      .then(json => {
-        this.setState({
-          currentBase: newBase
-        });
-      })
       .catch();
   };
 
@@ -90,9 +82,10 @@ class App extends Component {
           codes={this.codes}
           onChange={this.onSelectChange}
         />
-        <HistoricaRatesDisplay
+        <HistoricalRatesDisplay
           base={this.state.currentBase}
           rates={this.historicalRates}
+          exchangeBase={this.state.historicBase}
         />
 
       </div>

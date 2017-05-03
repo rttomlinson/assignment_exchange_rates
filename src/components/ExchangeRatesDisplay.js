@@ -1,21 +1,60 @@
-import React, { Component } from "react";
+import React, {
+    Component
+}
+from "react";
 
-const ExchangeRatesDisplay = props => {
-  const { base, rates } = props;
+class ExchangeRatesDisplay extends Component {
+    constructor(props) {
+        super(props)
 
-  const currencyCodes = Object.keys(rates);
-  const tableRates = currencyCodes.map(code => {
-    return (
-      <tr>
+
+        this.state = {
+            rates: {}
+        }
+
+
+    }
+    componentDidUpdate() {
+        fetch(`https://api.fixer.io/latest?base=${this.props.base}`)
+            .then(response => response.json())
+            .then(json => {
+                this.setState({
+                    rates: json
+                })
+            });
+
+    }
+
+    componentDidMount() {
+        fetch(`https://api.fixer.io/latest?base=${this.props.base}`)
+            .then(response => response.json())
+            .then(json => {
+                this.setState({
+                    rates: json
+                })
+            });
+
+    }
+
+    render() {
+        const {
+            base,
+            rates
+        } = this.state.rates;
+        console.log("render this.state", this.state.rates);
+        const currencyCodes = Object.keys(this.state.rates);
+        const tableRates = currencyCodes.map(code => {
+            return (
+                <tr>
         <td />
         <td>{code}</td>
         <td>{rates[code]} </td>
       </tr>
-    );
-  });
+            );
+        });
 
-  return (
-    <table className="table">
+        return (
+            <table className="table">
       <thead>
         <tr>
           <th>Base Rate</th>
@@ -27,7 +66,8 @@ const ExchangeRatesDisplay = props => {
         {tableRates}
       </tbody>
     </table>
-  );
+        );
+    }
 };
 
 export default ExchangeRatesDisplay;

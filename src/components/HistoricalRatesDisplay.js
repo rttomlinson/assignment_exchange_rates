@@ -1,14 +1,14 @@
 import React, { Component } from "react";
 
-const ExchangeRatesDisplay = props => {
-  const { base, rates } = props;
+const HistoricalRatesDisplay = props => {
+  const { base, exchangeBase, rates } = props;
 
   const tableRates = rates.map(rate => {
     return (
       <tr>
         <td />
         <td>{rate.date}</td>
-        <td>{rate.rates} </td>
+        <td>{rate.rates[exchangeBase]} </td>
       </tr>
     );
   });
@@ -19,7 +19,7 @@ const ExchangeRatesDisplay = props => {
         <tr>
           <th>Base Rate</th>
           <th>{base}</th>
-          <th>1</th>
+          <th>{exchangeBase}</th>
         </tr>
       </thead>
       <tbody>
@@ -29,4 +29,4 @@ const ExchangeRatesDisplay = props => {
   );
 };
 
-export default ExchangeRatesDisplay;
+export default HistoricalRatesDisplay;
