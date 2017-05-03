@@ -3,13 +3,12 @@ import React, { Component } from "react";
 const ExchangeRatesDisplay = props => {
   const { base, rates } = props;
 
-  const currencyCodes = Object.keys(rates);
-  const tableRates = currencyCodes.map(code => {
+  const tableRates = rates.map(rate => {
     return (
       <tr>
         <td />
-        <td>{code}</td>
-        <td>{rates[code]} </td>
+        <td>{rate.date}</td>
+        <td>{rate.rates} </td>
       </tr>
     );
   });
